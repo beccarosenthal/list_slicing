@@ -60,8 +60,8 @@ def custom_append(input_list, value):
         True
 
     """
-
-    input_list.append(value)
+    input_list[-1:] = [input_list[-1], value]
+    
 
 
 def custom_extend(input_list, second_list):
@@ -79,8 +79,10 @@ def custom_extend(input_list, second_list):
         True
 
     """
-        
-    input_list.extend(second_list)
+
+    new_list = [input_list[-1]] + second_list
+    input_list[-1:] = new_list
+
 
 
 
@@ -99,10 +101,8 @@ def custom_insert(input_list, index, value):
 
     """
 
-    new_list = [value]
-    new_list.append(input_list.pop())
-    input_list.extend(new_list)
-    # wtf????
+    input_list[index:index:] = [value]
+
 
 
 def custom_remove(input_list, value):
@@ -120,20 +120,14 @@ def custom_remove(input_list, value):
         True
 
     """
-    acc = []
-    count = 0
-    for i in input_list:
-        count += 1
-        if i != value:
-            custom_extend(acc, [i])
+
+    counter = 0
+    for item in input_list:
+        if item == value:
+            input_list[counter:] = input_list[counter+1:]
+            break
         else:
-            acc[:] = acc + input_list[count:] 
-            break 
-
-    input_list[:] = acc
-
-    ##THIS WORKS, BUT ISN't repeatable
-    # input_list.pop(0)
+            counter +=1
 
 
 def custom_pop(input_list):
